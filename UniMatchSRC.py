@@ -1,21 +1,21 @@
 import os
-import subprocess
 import sys
 
-# Ensure required packages are installed
-required_packages = ["openai", "pandas", "scikit-learn"]
+# Ensure dependencies are installed
+try:
+    import openai
+    import streamlit as st
+    import pandas as pd
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.metrics.pairwise import cosine_similarity
+except ModuleNotFoundError as e:
+    missing_module = str(e).split("'")[1]
+    print(f"⚠️ {missing_module} not found. Installing it now...")
+    os.system(f"{sys.executable} -m pip install {missing_module}")
+    import openai  # Re-attempt import
 
-for package in required_packages:
-    try:
-        __import__(package)
-    except ImportError:
-        subprocess.check_call([sys.executable, "-m", "pip", "install", package])
-
-import streamlit as st
-import pandas as pd
-import openai
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
+# Set OpenAI API key from Streamlit secrets
+openai.api_key = os.getenv("OPENAI_API_KEY", st.secrets["OPENAI_API_KEY"])
 
 
 # Load datasets
