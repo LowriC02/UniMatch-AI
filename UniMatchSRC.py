@@ -24,8 +24,11 @@ def load_data():
 
 courses_df = load_data()
 
-# AI API Configuration
-openai.api_key = os.getenv("OPENAI_API_KEY", st.secrets["OPENAI_API_KEY"])
+# AI API Configuration (Secure API Key Handling)
+if "OPENAI_API_KEY" in st.secrets:
+    openai.api_key = st.secrets["OPENAI_API_KEY"]
+else:
+    st.error("❌ OpenAI API Key is missing. Add it to `.streamlit/secrets.toml`.")
 
 def ai_enhanced_recommendation(student_interests, predicted_grades):
     """
