@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import openai
+import os
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -24,7 +25,7 @@ def load_data():
 courses_df = load_data()
 
 # AI API Configuration
-openai.api_key = st.secrets["OPENAI_API_KEY"]
+openai.api_key = os.getenv("OPENAI_API_KEY", st.secrets["OPENAI_API_KEY"])
 
 def ai_enhanced_recommendation(student_interests, predicted_grades):
     """
