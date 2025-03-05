@@ -1,9 +1,22 @@
+import os
+import subprocess
+import sys
+
+# Ensure required packages are installed
+required_packages = ["openai", "pandas", "scikit-learn"]
+
+for package in required_packages:
+    try:
+        __import__(package)
+    except ImportError:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+
 import streamlit as st
 import pandas as pd
 import openai
-import os
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+
 
 # Load datasets
 @st.cache_data
